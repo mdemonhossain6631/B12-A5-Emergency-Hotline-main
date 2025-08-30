@@ -1,35 +1,66 @@
-console.log ('call me')
+console.log('call me')
 
 // Call Button Actions
 
-
-let serviceName = document.getElementsByClassName("service-name")[0].innerText;
-let serviceNumber = document.getElementsByClassName("service-number")[0].innerText;
-console.log(serviceNumber)
 let coinCount = parseInt(document.getElementById('coin-count').innerText);
 
-const callButton = document.getElementsByClassName('call-button')
+const callButtons = document.querySelectorAll(".call-button")
 
-for(let button of callButton){
-    button.addEventListener('click', function(){
 
-    if(coinCount >= 20){
-        coinCount -= 20 ;
-        alert('📞'+ serviceName + ' >>> ' +serviceNumber+' ')
+for (let button of callButtons) {
+    button.addEventListener("click", function () {
+        const serviceCard = button.closest(".service-card");
+        let serviceName = serviceCard.querySelector(".service-name").innerText;
+        let serviceNumber = serviceCard.querySelector(".service-number").innerText;
         
-         document.getElementById('coin-count').innerText = coinCount;
-        
-    }
-    else {
 
-        return alert('❌>>> You Have Not Enough Coins')
+        if (coinCount >= 20) {
+            coinCount -= 20;
 
-        
-    }
+            alert('📞' + serviceName + ' >>> ' + serviceNumber + ' ')
 
-})
+            document.getElementById('coin-count').innerText = coinCount;
+
+            const history = document.querySelector(".history");
+
+            const now = new Date();
+            const timeString = now.toLocaleTimeString();
+
+
+            const historyList = document.createElement("div");
+            historyList.classList.add(
+                "flex","bg-[#FAFAFA]","justify-between","items-center","mt-[16px]","rounded-lg"
+            );
+
+            historyList.innerHTML = `
+      <div class="py-[10px] px-[10px]">
+        <h1 class=" text-[15px] font-semibold">${serviceName}</h1>
+        <h2 class=" text-[18px] mt-1">${serviceNumber}</h2>
+      </div>
+      <div class="px-[12px] text-[14px]">
+        <h1>${timeString}</h1>
+      </div>
+    `;
+
+            history.appendChild(historyList);
+
+            document.getElementById('clear-btn').addEventListener('click', function () {
+                history.innerText = '';
+            })
+
+        }
+        else {
+
+            return alert('❌>>> You Have Not Enough Coins')
+
+
+        }
+
+    })
 }
-    
+
+
+
 
 
 
